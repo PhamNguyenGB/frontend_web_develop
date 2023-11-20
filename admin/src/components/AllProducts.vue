@@ -3,8 +3,8 @@ import ProductService from '../services/product.service';
 import { onBeforeMount, onMounted, reactive, ref } from "vue";
 import { RouterLink } from 'vue-router';
 
-const productService = new ProductService()
-const products = ref()
+const productService = new ProductService();
+const products = ref();
 
 async function fetchAllProducts() {
     try {
@@ -14,8 +14,13 @@ async function fetchAllProducts() {
     }
 }
 
-async function handleEditProduct(product) {
-    console.log(product);
+async function handleDelete(productId) {
+    let response = await productService.deleteProduct(productId);
+    if (response && response.EC === 0) {
+        alert(response.EM);
+        return;
+    }
+    alert('error delete');
 }
 
 onBeforeMount(async () => {
@@ -47,7 +52,7 @@ onBeforeMount(async () => {
                     <td class="button-action">
                         <RouterLink class="btn btn-primary m-1" :to="'/products/edit/' + product._id">Edit
                         </RouterLink>
-                        <div class="btn btn-danger m-1">Delete</div>
+                        <div class="btn btn-danger m-1" v-on:click="handleDelete(product._id)">Delete</div>
                     </td>
                 </tr>
             </tbody>

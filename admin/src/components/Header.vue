@@ -1,5 +1,8 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import { useAuthStore } from '../stores/auth.store';
+
+const authStore = useAuthStore()
 // const app = new Vue({
 //     el: '#header',
 //     data: {
@@ -39,7 +42,7 @@ import { RouterLink } from 'vue-router';
                 <div class="dropdown text-end">
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                        <div>Xin chào {{ authStore.user.staffname }}</div>
                     </a>
                     <ul class="dropdown-menu text-small">
                         <li>
@@ -48,7 +51,7 @@ import { RouterLink } from 'vue-router';
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
+                        <li><a class="dropdown-item" href="#" @click="authStore.logout()">Đăng xuất</a></li>
                     </ul>
                 </div>
             </div>
@@ -58,6 +61,10 @@ import { RouterLink } from 'vue-router';
 <style scoped>
 .header {
     background-color: #b22830;
+}
+
+.button-manager {
+    font-weight: 500;
 }
 
 .button-manager:hover {

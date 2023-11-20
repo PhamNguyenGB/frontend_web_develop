@@ -7,6 +7,7 @@ import AllProducts from "../components/AllProducts.vue";
 import AddProduct from "../components/AddProduct.vue";
 import EditProduct from "../components/EditProduct.vue";
 import LoginAdmin from "../components/Login.vue";
+import { useAuthStore } from "../stores/auth.store";
 
 const routes = [
     {
@@ -53,10 +54,14 @@ const router = createRouter({
     routes,
 });
 
-// router.beforeEach(async (to) => {
-//     const authStore = useAuthStore(
-
-//     );
-// })
+router.beforeEach(async (to) => {
+    const authStore = useAuthStore()
+    if (to.meta.requireAuth && !authStore.user) {
+        authStore.returnURL = to.fullPath;
+        return {
+            path: "/login",
+        }
+    }
+})
 
 export default router;

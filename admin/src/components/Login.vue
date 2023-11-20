@@ -2,17 +2,20 @@
 import { ref, reactive } from 'vue';
 import router from '../router';
 import AuthService from '../services/auth.service';
-const authService = new AuthService();
+import { useAuthStore } from "../stores/auth.store";
+const authService = useAuthStore();
 
 const staffname = ref('');
 const password = ref('');
 const messageErr = ref('');
 
 async function submit() {
-    const response = await authService.login(staffname.value, password.value);
+    const response = await authService.login({
+        staffname: staffname.value,
+        password: password.value
+    });
     if (response && response.EC === 0) {
         router.push('/products');
-        console.log(response);
     }
     messageErr.value = response.EM;
 }

@@ -1,17 +1,30 @@
 import createApi from './api.servie';
 import axios from "axios";
+import { useAuthStore } from "../stores/auth.store";
 
-const auth = 'http://localhost:8888/api';
+const authURL = "http://localhost:8888/api"
 
 class AuthService {
-    // constructor(baseURL = auth) {
-    //     this.api = createApi(baseURL);
-    // }
+    constructor(baseURL = authURL) {
+        this.api = createApi(baseURL);
+    }
 
-    async login(staffname, password) {
-        return (await axios.post('http://localhost:8888/api/admin/login', { staffname: staffname, password: password })).data
+    async login(user) {
+        return (await axios.post(authURL + '/admin/login', user)).data
     };
+
+    async logout(id) {
+        const authStore = useAuthStore()
+        return (await this.api.post(authURL + "/admin/logout", {
+            id: id,
+        }, {
+            headers: {
+                Authorization: "Beare " + authStore.user.accessToken
+
+            }
+        })).data
+    }
 
 }
 
-export default AuthService;
+export default new AuthService();

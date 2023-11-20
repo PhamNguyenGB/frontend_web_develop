@@ -1,34 +1,58 @@
 // import axios from "../setup/axios";
 import axios from "axios";
+import { useAuthStore } from "../stores/auth.store";
 
+const baseURL = "http://localhost:8888/api/admin/products"
 
 class ProductService {
+    constructor() {
+        this.user = (useAuthStore()).user
+        const commonConfig = {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Beare " + this.user.accessToken || ""
+            },
+        };
+        this.api = axios.create({
+            baseURL,
+            ...commonConfig,
+        })
+    }
 
     async fetchALlProducts() {
-        return (await axios.get('http://localhost:8888/api/admin/products')).data;
+        return (await axios.get(baseURL)).data;
     }
 
     async addProduct(product) {
-        return (await axios.post('http://localhost:5173/api/admin/products/create', product), {
+        console.log("check product", product);
+        return (await axios.post(baseURL + '/create', product, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                "Authorization": "Beare " + this.user.accessToken || ""
+            }
+        })).data
+    }
+
+    async updateProduct(product) {
+        return (await axios.put(baseURL + '/update', product, {
             headers: {
                 "Content-Type": 'multipart/form-data',
+                "Authorization": "Beare " + this.user.accessToken || ""
             }
-        });
+        })).data
     }
 
-    async addProduct(product) {
-        return (await axios.put('http://localhost:5173/api/admin/products/update', product), {
+    async deleteProduct(productId) {
+        return (await axios.delete(baseURL + `/detele/${productId}`), {
             headers: {
-                "Content-Type": 'multipart/form-data',
+                "Authorization": "Beare " + this.user.accessToken || ""
             }
-        });
+        })
     }
 
-    async deleteProduct(product) {
-        return (await axios.delete('http://localhost:5173/api/admin/products/detele', product));
+    async findProductById(productId) {
+        return (await axios.get(baseURL + `/${[productId]}`)).data
     }
-
-
 }
 
 export default ProductService;
