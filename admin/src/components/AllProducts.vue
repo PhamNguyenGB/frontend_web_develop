@@ -2,6 +2,7 @@
 import ProductService from '../services/product.service';
 import { onBeforeMount, onMounted, reactive, ref } from "vue";
 import { RouterLink } from 'vue-router';
+import numeral from 'numeral';
 
 const productService = new ProductService();
 const products = ref();
@@ -21,6 +22,10 @@ async function handleDelete(productId) {
         return;
     }
     alert('error delete');
+}
+
+function formatCash(price) {
+    return numeral(price).format('0,0');
 }
 
 onBeforeMount(async () => {
@@ -47,7 +52,7 @@ onBeforeMount(async () => {
                 <tr>
                     <td class="button-action">{{ product.name }}</td>
                     <td><img class="image-admin" v-bind:src='product.image_url' /></td>
-                    <td class="button-action">{{ product.price }} vnđ</td>
+                    <td class="button-action">{{ formatCash(product.price) }} vnđ</td>
                     <td class="button-action">{{ product.type }}</td>
                     <td class="button-action">
                         <RouterLink class="btn btn-primary m-1" :to="'/products/edit/' + product._id">Edit

@@ -8,6 +8,8 @@ import AddProduct from "../components/AddProduct.vue";
 import EditProduct from "../components/EditProduct.vue";
 import LoginAdmin from "../components/Login.vue";
 import { useAuthStore } from "../stores/auth.store";
+import Order from "../components/Order.vue";
+import OrderDetail from "../components/OrderDetail.vue";
 
 const routes = [
     {
@@ -35,7 +37,15 @@ const routes = [
                 path: "/products/edit/:id",
                 component: EditProduct,
                 props: true,
-            }
+            },
+            {
+                path: "/orders",
+                component: Order,
+            },
+            {
+                path: "/orders/detail/:id",
+                component: OrderDetail,
+            },
 
         ]
     },

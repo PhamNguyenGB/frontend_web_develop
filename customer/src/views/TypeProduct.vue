@@ -3,14 +3,12 @@ import { ref, reactive, defineProps, onBeforeMount, watch } from 'vue';
 import productService from '../services/product.service';
 import numeral from 'numeral';
 import router from '../router';
-import { useCartStore } from "../stores/cart.store"
+import { useCartStore } from "../stores/cart.store";
 
-const cartStore = useCartStore()
+const cartStore = useCartStore();
 
 const props = defineProps(['type']);
 const products = ref('');
-
-const addProductCart = ref([]);
 
 async function fetchAllTypeProducts() {
     try {

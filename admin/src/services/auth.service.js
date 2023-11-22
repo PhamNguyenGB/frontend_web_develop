@@ -1,28 +1,27 @@
-import createApi from './api.servie';
 import axios from "axios";
 import { useAuthStore } from "../stores/auth.store";
 
-const authURL = "http://localhost:8888/api"
 
 class AuthService {
-    constructor(baseURL = authURL) {
-        this.api = createApi(baseURL);
-    }
-
-    async login(user) {
-        return (await axios.post(authURL + '/admin/login', user)).data
-    };
-
-    async logout(id) {
-        const authStore = useAuthStore()
-        return (await this.api.post(authURL + "/admin/logout", {
-            id: id,
-        }, {
+    async login(staff) {
+        console.log(staff);
+        return (await axios.post('http://localhost:8888/api/admin', staff, {
             headers: {
-                Authorization: "Beare " + authStore.user.accessToken
-
+                "Content-Type": "application/json",
             }
         })).data
+    };
+
+    async logout() {
+        const authStore = useAuthStore()
+        return (awaitaxios.post("http://localhost:8888/api/admin/logout", {},
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: "Beare " + authStore.user.accessToken
+                }
+            })).data
     }
 
 }

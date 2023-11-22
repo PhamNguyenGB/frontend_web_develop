@@ -5,15 +5,15 @@ import AuthService from '../services/auth.service';
 import { useAuthStore } from "../stores/auth.store";
 const authService = useAuthStore();
 
-const staffname = ref('');
-const password = ref('');
 const messageErr = ref('');
 
+const staffLogin = reactive({
+    staffname: null,
+    password: null,
+});
+
 async function submit() {
-    const response = await authService.login({
-        staffname: staffname.value,
-        password: password.value
-    });
+    const response = await authService.login(staffLogin);
     if (response && response.EC === 0) {
         router.push('/products');
     }
@@ -45,13 +45,15 @@ async function submit() {
 
                                     <!-- Email input -->
                                     <div class="form-outline mb-4">
-                                        <input v-model="staffname" type="staffname" id="staffname" class="form-control" />
+                                        <input v-model="staffLogin.staffname" type="staffname" id="staffname"
+                                            class="form-control" />
                                         <label class="form-label" for="staffname">Staff Name</label>
                                     </div>
 
                                     <!-- Password input -->
                                     <div class="form-outline mb-4">
-                                        <input v-model="password" type="password" id="password" class="form-control" />
+                                        <input v-model="staffLogin.password" type="password" id="password"
+                                            class="form-control" />
                                         <label class="form-label" for="password">Password</label>
                                     </div>
                                     <!-- Submit button -->

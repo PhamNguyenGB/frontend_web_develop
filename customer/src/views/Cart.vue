@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useCartStore } from '../stores/cart.store';
 import userService from "../services/user.service";
 import numeral from 'numeral';
+import orderService from '../services/order.service';
 
 const cartStore = useCartStore();
 
@@ -21,6 +22,20 @@ function deleteProduct(productId) {
 function formatCash(price) {
     return numeral(price).format('0,0');
 }
+
+async function handlePay(product) {
+    // console.log(product);
+    try {
+        await orderService.addOrder({
+            orderDetail: product,
+        })
+        alert("Đặt hàng thành công")
+        cartStore.clear();
+    } catch (err) {
+        console.log(err);
+        alert("Đặt hàng không thành công")
+    }
+} 
 </script>
 <template>
     <section class="h-100 gradient-custom" style="min-height: 700px;">
@@ -109,7 +124,8 @@ function formatCash(price) {
                                 </li>
                             </ul>
 
-                            <button type="button" class="btn btn-primary btn-lg btn-block">
+                            <button type="button" class="btn btn-primary btn-lg btn-block"
+                                @click="handlePay(cartStore.cart)">
                                 Thanh toán
                             </button>
                         </div>

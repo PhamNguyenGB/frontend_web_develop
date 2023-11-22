@@ -67,7 +67,7 @@ async function handleLogout() {
                                             tin</a>
                                     </li>
                                     <hr />
-                                    <li><a class="dropdown-item text-center" href="#">Lịch sử đơn
+                                    <li><a class="dropdown-item text-center" href="/history">Lịch sử đơn
                                             hàng</a></li>
                                     <hr />
                                     <li><a class="dropdown-item text-center" href="#" @click="handleLogout">Đăng

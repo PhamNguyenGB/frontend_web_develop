@@ -3,6 +3,10 @@ import productService from '../services/product.service';
 import { ref, reactive, defineProps, onBeforeMount, watch, defineEmits } from 'vue';
 import numeral from 'numeral';
 import router from '../router';
+import { useCartStore } from "../stores/cart.store";
+
+const cartStore = useCartStore();
+let quantity = ref(1);
 
 const emits = defineEmits(['addOne', 'subOne', 'deleteProduct'])
 
@@ -22,6 +26,18 @@ function formatCash(price) {
     return numeral(price).format('0,0');
 }
 
+function increase() {
+    quantity.value += 1;
+}
+
+function decrease() {
+    if (quantity.value < 2) {
+        quantity.value = 1;
+    } else {
+        quantity.value -= 1;
+    }
+}
+
 onBeforeMount(async () => {
     await getOneProduct();
 });
@@ -29,6 +45,13 @@ onBeforeMount(async () => {
 watch(props, () => {
     getOneProduct();
 })
+
+function addCart(product) {
+    console.log(product);
+    cartStore.addProduct(
+        product
+        , quantity.value)
+}
 </script>
 
 <template>
@@ -55,13 +78,14 @@ watch(props, () => {
                                 <div class="sizes mt-5">
                                     <h6 class="text-uppercase">Số lượng: </h6>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                        <button type="button" class="btn btn-success">-</button>
-                                        <button type="button" class="btn">1</button>
-                                        <button type="button" class="btn btn-success">+</button>
+                                        <button type="button" class="btn btn-success" @click="decrease">-</button>
+                                        <button type="button" class="btn">{{ quantity }}</button>
+                                        <button type="button" class="btn btn-success" @click="increase">+</button>
                                     </div>
                                 </div>
                                 <div class="cart mt-4 align-items-center"> <button
-                                        class="btn btn-success text-uppercase mr-2 px-4">Thêm vào giỏ</button>
+                                        class="btn btn-success text-uppercase mr-2 px-4" @click="addCart(product)">Thêm vào
+                                        giỏ</button>
                                 </div>
                             </div>
                         </div>

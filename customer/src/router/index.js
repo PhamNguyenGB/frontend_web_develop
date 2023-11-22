@@ -7,6 +7,8 @@ import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import ProductDetail from "../views/ProductDetail.vue";
 import Cart from "../views/Cart.vue";
+import HistoryOrder from "../views/HistoryOrder.vue";
+import HistoryOrderDetail from "../views/HistoryOrderDetail.vue";
 
 const routes = [
     {
@@ -68,6 +70,22 @@ const routes = [
             requireAuth: true
         },
         component: Cart
+    },
+    {
+        path: '/history',
+        name: 'HistoryOrder',
+        meta: {
+            requireAuth: true
+        },
+        component: HistoryOrder
+    },
+    {
+        path: '/history/detail/:id',
+        name: 'HistoryOrderDetail',
+        meta: {
+            requireAuth: true
+        },
+        component: HistoryOrderDetail
     },
 ]
 
