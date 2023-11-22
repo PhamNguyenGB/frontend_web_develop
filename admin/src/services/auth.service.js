@@ -14,7 +14,7 @@ class AuthService {
 
     async logout() {
         const authStore = useAuthStore()
-        return (awaitaxios.post("http://localhost:8888/api/admin/logout", {},
+        return (await axios.post("http://localhost:8888/api/admin/logout", {},
             {
                 headers: {
                     "Content-Type": "application/json",
