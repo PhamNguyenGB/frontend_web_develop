@@ -43,11 +43,11 @@ class ProductService {
     }
 
     async deleteProduct(productId) {
-        return (await axios.delete(baseURL + `/detele/${productId}`), {
+        return (await axios.delete(baseURL + `/detele/${productId}`, {
             headers: {
                 "Authorization": "Beare " + this.user.accessToken || ""
             }
-        })
+        })).data
     }
 
     async findProductById(productId) {
