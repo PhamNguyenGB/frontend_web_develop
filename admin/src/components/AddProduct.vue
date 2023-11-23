@@ -2,6 +2,7 @@
 import { RouterLink } from 'vue-router';
 import { ref, reactive } from 'vue';
 import ProductService from '../services/product.service';
+import router from '../router';
 
 const productService = new ProductService();
 
@@ -32,6 +33,8 @@ async function onSubmit() {
     console.log(response);
     if (response && response.EC === 0) {
         alert(response.EM);
+        router.push('/products');
+
     } else {
         alert(response.EM);
     }

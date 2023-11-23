@@ -18,6 +18,7 @@ async function handleStatus(orderId) {
     let response = await orderService.updateOrderStatus(orderId);
     if (response) {
         alert('updated order status');
+        window.location.reload();
     }
 }
 

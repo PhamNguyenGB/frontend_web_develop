@@ -19,6 +19,7 @@ async function handleDelete(productId) {
     let response = await productService.deleteProduct(productId);
     if (response && response.EC === 0) {
         alert(response.EM);
+        window.location.reload();
         return;
     }
     alert('error delete');
